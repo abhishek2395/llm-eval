@@ -1,0 +1,14 @@
+# Core
+anthropic>=0.30.0
+openai>=1.30.0          # Also used as the OpenRouter SDK client
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+
+# Dashboard
+streamlit>=1.35.0
+plotly>=5.20.0
+openpyxl>=3.1.0
+
+# Utilities
+python-dotenv>=1.0.0

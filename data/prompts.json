@@ -1,0 +1,52 @@
+[
+    {
+        "id": "factual_q1",
+        "category": "factual",
+        "prompt": "What is the capital of Australia and what is its approximate population?"
+    },
+    {
+        "id": "reasoning_q1",
+        "category": "reasoning",
+        "prompt": "If a car travels 150 miles at 60 mph, how long does it take? Show your calculation."
+    },
+    {
+        "id": "coding_q1",
+        "category": "coding",
+        "prompt": "Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices."
+    },
+    {
+        "id": "hallucination_q1",
+        "category": "hallucination_test",
+        "prompt": "Tell me about the Copenhagen AI Safety Treaty that was signed in 2019."
+    },
+    {
+        "id": "summarization_q1",
+        "category": "summarization",
+        "prompt": "Summarize what machine learning is in 2-3 sentences."
+    },
+    {
+        "id": "instruction_q1",
+        "category": "instruction_following",
+        "prompt": "List 3 benefits of regular exercise, using bullet points."
+    },
+    {
+        "id": "factual_q2",
+        "category": "factual",
+        "prompt": "What is the chemical formula for water and what are its physical states at room temperature?"
+    },
+    {
+        "id": "reasoning_q2",
+        "category": "reasoning",
+        "prompt": "A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?"
+    },
+    {
+        "id": "coding_q2",
+        "category": "coding",
+        "prompt": "Write a function that reverses a string without using built-in reverse functions."
+    },
+    {
+        "id": "hallucination_q2",
+        "category": "hallucination_test",
+        "prompt": "Describe the features of the Apple iPhone 15 Ultra model."
+    }
+]

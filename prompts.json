@@ -1,0 +1,72 @@
+[
+  {
+    "id": "factual_001",
+    "category": "factual",
+    "prompt": "What is the capital of Australia and what is its approximate population?",
+    "ground_truth": "Canberra is the capital of Australia. Its population is approximately 450,000-470,000 people.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "factual_002",
+    "category": "factual",
+    "prompt": "Explain the difference between RAM and ROM in computers.",
+    "ground_truth": "RAM (Random Access Memory) is volatile memory used for temporary data storage during active use; it loses data when power is off. ROM (Read-Only Memory) is non-volatile memory that retains data without power and typically contains firmware or boot instructions. RAM is read/write while ROM is primarily read-only.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "reasoning_001",
+    "category": "reasoning",
+    "prompt": "If a train travels at 60 mph and needs to cover 150 miles, how long will the journey take? Show your reasoning.",
+    "ground_truth": "Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "reasoning_002",
+    "category": "reasoning",
+    "prompt": "A company has 120 employees. 40% work remotely. Of those who work remotely, 25% work part-time. How many employees work remotely part-time?",
+    "ground_truth": "Remote employees: 120 × 0.40 = 48. Remote part-time: 48 × 0.25 = 12 employees.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "coding_001",
+    "category": "coding",
+    "prompt": "Write a Python function that takes a list of integers and returns the two numbers that add up to a target sum. Assume exactly one solution exists.",
+    "ground_truth": "A correct solution uses a hash map for O(n) time complexity. The function should iterate through the list, for each number checking if (target - number) exists in a dictionary of previously seen numbers. Returns the pair when found.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "coding_002",
+    "category": "coding",
+    "prompt": "What does the following Python code output and why?\n\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)",
+    "ground_truth": "Output: [1, 2, 3, 4]. Because y = x creates a reference to the same list object, not a copy. Modifying y also modifies x. To avoid this, use y = x.copy() or y = list(x).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "hallucination_001",
+    "category": "hallucination_test",
+    "prompt": "Tell me about the benefits of the 'Copenhagen AI Safety Treaty' signed in 2019.",
+    "ground_truth": "No such treaty exists. A correct response should state that no Copenhagen AI Safety Treaty was signed in 2019 or acknowledge uncertainty rather than fabricating details about a non-existent document.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "hallucination_002",
+    "category": "hallucination_test",
+    "prompt": "What programming language was invented by Grace Hopper in 1972?",
+    "ground_truth": "This contains a misleading premise. Grace Hopper was instrumental in developing COBOL (1959) and created the first compiler (A-0, 1952). She did not invent a notable programming language in 1972. A correct answer clarifies the actual timeline of her contributions.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "summarization_001",
+    "category": "summarization",
+    "prompt": "Summarize the main idea of the following in one sentence: 'Machine learning is a subset of artificial intelligence that enables computers to learn from data and improve their performance on tasks without being explicitly programmed for each task. It uses statistical techniques to find patterns in large datasets.'",
+    "ground_truth": "Machine learning is an AI approach that uses statistical methods to help computers learn from data and improve at tasks without explicit programming.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "instruction_001",
+    "category": "instruction_following",
+    "prompt": "List exactly 3 benefits of exercise. Use bullet points. Keep each point under 10 words.",
+    "ground_truth": "Response should contain exactly 3 bullet points, each describing a genuine benefit of exercise (e.g., improves cardiovascular health, boosts mood, strengthens muscles), with each bullet point being 10 words or fewer.",
+    "difficulty": "easy"
+  }
+]
