@@ -83,49 +83,72 @@ def already_evaluated(model: str, prompt_id: str) -> tuple[dict | None, dict | N
 
 
 def _call_model(client, model: str, prompt: str,
-                system: str = "You are a helpful and precise assistant.") -> dict:
-    """Single model call. Returns dict with response_text, latency_ms, tokens."""
+                system: str = "You are a helpful and precise assistant.",
+                temperature: float = 0.3,
+                max_retries: int = 2) -> dict:
+    """Single model call with rate-limit/5xx retries.
+
+    Returns dict with response_text, latency_ms, tokens, and `retries`
+    (how many extra attempts were needed — feeds the retry-rate metric).
+    """
     import openai
     start = time.time()
-    try:
-        completion = client.chat.completions.create(
-            model=model,
-            max_tokens=1024,
-            temperature=0.3,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user",   "content": prompt},
-            ],
-        )
-        latency_ms = (time.time() - start) * 1000
-        text = completion.choices[0].message.content or ""
-        in_tok  = getattr(completion.usage, "prompt_tokens", 0)
-        out_tok = getattr(completion.usage, "completion_tokens", 0)
+    retries = 0
+    last_err: Exception | None = None
+    for attempt in range(max_retries + 1):
+        try:
+            completion = client.chat.completions.create(
+                model=model,
+                max_tokens=1024,
+                temperature=temperature,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user",   "content": prompt},
+                ],
+            )
+            latency_ms = (time.time() - start) * 1000
+            text = completion.choices[0].message.content or ""
+            in_tok  = getattr(completion.usage, "prompt_tokens", 0)
+            out_tok = getattr(completion.usage, "completion_tokens", 0)
 
-        # first_token approximation: 30% of total latency (streaming not used here)
-        first_tok_ms = latency_ms * 0.30
+            # first_token approximation: 30% of total latency (streaming not used here)
+            first_tok_ms = latency_ms * 0.30
 
-        return {
-            "response_text": text,
-            "total_latency_ms": round(latency_ms, 1),
-            "first_token_latency_ms": round(first_tok_ms, 1),
-            "input_tokens": in_tok,
-            "output_tokens": out_tok,
-            "tokens_per_second": round(out_tok / (latency_ms / 1000), 1) if out_tok and latency_ms else 0,
-            "verbosity_ratio": round(out_tok / in_tok, 2) if in_tok else 0,
-            "refused": False,
-            "error": None,
-        }
-    except Exception as e:
-        latency_ms = (time.time() - start) * 1000
-        return {
-            "response_text": "",
-            "total_latency_ms": round(latency_ms, 1),
-            "first_token_latency_ms": 0,
-            "input_tokens": 0, "output_tokens": 0,
-            "tokens_per_second": 0, "verbosity_ratio": 0,
-            "refused": True, "error": str(e),
-        }
+            return {
+                "response_text": text,
+                "total_latency_ms": round(latency_ms, 1),
+                "first_token_latency_ms": round(first_tok_ms, 1),
+                "input_tokens": in_tok,
+                "output_tokens": out_tok,
+                "tokens_per_second": round(out_tok / (latency_ms / 1000), 1) if out_tok and latency_ms else 0,
+                "verbosity_ratio": round(out_tok / in_tok, 2) if in_tok else 0,
+                "refused": False,
+                "retries": retries,
+                "error": None,
+            }
+        except openai.RateLimitError as e:
+            last_err = e
+        except openai.APIStatusError as e:
+            if e.status_code < 500:
+                last_err = e
+                break  # 4xx won't heal on retry
+            last_err = e
+        except Exception as e:
+            last_err = e
+            break
+        if attempt < max_retries:
+            retries += 1
+            time.sleep(2 ** attempt)
+
+    latency_ms = (time.time() - start) * 1000
+    return {
+        "response_text": "",
+        "total_latency_ms": round(latency_ms, 1),
+        "first_token_latency_ms": 0,
+        "input_tokens": 0, "output_tokens": 0,
+        "tokens_per_second": 0, "verbosity_ratio": 0,
+        "refused": True, "retries": retries, "error": str(last_err),
+    }
 
 
 def _call_judge(client, prompt_text: str, response_text: str,

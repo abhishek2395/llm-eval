@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { shortName } from "@/lib/aliases";
 import { mcolor, scoreColor } from "@/lib/colors";
@@ -118,16 +118,30 @@ export function DrilldownSection({
   valid,
   responses,
   prompts,
+  focusId,
 }: {
   models: string[];
   valid: ScoreRow[];
   responses: ResponseRow[];
   prompts: Prompt[];
+  focusId?: string | null;
 }) {
   const [sortBy, setSortBy] =
     useState<(typeof SORT_OPTIONS)[number]>("composite_score");
   const [catFilter, setCatFilter] = useState<string>("all");
   const [open, setOpen] = useState<Record<string, boolean>>({});
+
+  // ⌘K deep link: expand + scroll to the focused prompt row
+  useEffect(() => {
+    if (!focusId) return;
+    setOpen((o) => ({ ...o, [focusId]: true }));
+    const t = setTimeout(() => {
+      document
+        .getElementById(`drill-${focusId}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+    return () => clearTimeout(t);
+  }, [focusId]);
 
   const categories = useMemo(
     () => [...new Set(prompts.map((p) => p.category))],
@@ -193,7 +207,7 @@ export function DrilldownSection({
           const rows = valid.filter((s) => s.prompt_id === p.id);
           const isOpen = open[p.id] ?? false;
           return (
-            <div key={p.id} className="rounded-lg border border-line bg-bg3">
+            <div key={p.id} id={`drill-${p.id}`} className="rounded-lg border border-line bg-bg3">
               <button
                 className="flex w-full flex-wrap items-center gap-2 px-4 py-3 text-left transition-colors hover:border-amber/30"
                 onClick={() => setOpen((o) => ({ ...o, [p.id]: !isOpen }))}

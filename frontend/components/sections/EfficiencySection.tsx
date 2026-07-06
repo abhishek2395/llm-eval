@@ -200,7 +200,7 @@ export function EfficiencySection({
         <table className="w-full border-collapse font-mono text-[0.75rem]">
           <thead>
             <tr className="border-b-2 border-line bg-bg3">
-              {["Model", "p50", "p90", "p99", "ctx window", "ctx used"].map((h) => (
+              {["Model", "p50", "p90", "p99", "retries", "ctx window", "ctx used"].map((h) => (
                 <th
                   key={h}
                   className="px-3 py-2 text-left text-[0.6rem] uppercase tracking-[0.1em] text-mute"
@@ -229,6 +229,14 @@ export function EfficiencySection({
                   <td className="px-3 py-1.5">{fmt(percentile(lats, 0.9), 0)}ms</td>
                   <td className="px-3 py-1.5 text-amber">
                     {fmt(percentile(lats, 0.99), 0)}ms
+                  </td>
+                  <td className="px-3 py-1.5 text-mute">
+                    {(() => {
+                      const withRetries = byModel(m).filter((r) => r.retries != null);
+                      if (!withRetries.length) return "—";
+                      const total = withRetries.reduce((a, r) => a + (r.retries ?? 0), 0);
+                      return total === 0 ? "0" : `${total} (${((total / withRetries.length) * 100).toFixed(0)}%/call)`;
+                    })()}
                   </td>
                   <td className="px-3 py-1.5 text-mute">
                     {ctx ? `${Math.round(ctx / 1000)}K` : "—"}

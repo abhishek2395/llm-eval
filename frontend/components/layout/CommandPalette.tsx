@@ -172,7 +172,7 @@ export function CommandPalette() {
                   <Command.Item
                     key={p.id}
                     value={`prompt ${p.id} ${p.category} ${p.prompt}`}
-                    onSelect={() => go("/prompts")}
+                    onSelect={() => go(`/?focus=${encodeURIComponent(p.id)}`)}
                     className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-[0.82rem] text-ink data-[selected=true]:bg-bg3"
                   >
                     <ListChecks size={13} className="text-mute" />

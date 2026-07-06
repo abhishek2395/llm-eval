@@ -16,9 +16,44 @@ import { useEvalStream } from "@/hooks/useEvalStream";
 import { api } from "@/lib/api";
 import { getVisitorKey } from "@/lib/key";
 
+const SECTIONS = [
+  "Overview",
+  "Verdict",
+  "Quality",
+  "Efficiency",
+  "Value",
+  "Category",
+  "Drill-down",
+] as const;
+type SectionName = (typeof SECTIONS)[number];
+const SECTIONS_KEY = "llm-eval:hidden-sections";
+
 export default function Dashboard() {
   const data = useEvalData();
   const [keySet, setKeySet] = useState(false);
+  const [hiddenSections, setHiddenSections] = useState<SectionName[]>([]);
+  const [focusId, setFocusId] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SECTIONS_KEY);
+      if (raw) setHiddenSections(JSON.parse(raw));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const setSections = (next: SectionName[]) => {
+    setHiddenSections(next);
+    try {
+      localStorage.setItem(SECTIONS_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  };
+  const show = (s: SectionName) => !hiddenSections.includes(s);
+  const toggleSection = (s: SectionName) =>
+    setSections(show(s) ? [...hiddenSections, s] : hiddenSections.filter((x) => x !== s));
 
   useEffect(() => {
     api
@@ -34,14 +69,15 @@ export default function Dashboard() {
     onDone: useCallback(() => void refresh(), [refresh]),
   });
 
-  // ?run=a,b — set by the ⌘K palette ("surprise me" / run model) from any page
+  // ?run=a,b (⌘K run/surprise-me) and ?focus=<prompt_id> (⌘K prompt search)
   const { run } = stream;
   useEffect(() => {
-    const param = new URLSearchParams(window.location.search).get("run");
-    if (param) {
-      window.history.replaceState(null, "", "/");
-      run(param.split(",").filter(Boolean));
-    }
+    const params = new URLSearchParams(window.location.search);
+    const runParam = params.get("run");
+    const focusParam = params.get("focus");
+    if (runParam || focusParam) window.history.replaceState(null, "", "/");
+    if (runParam) run(runParam.split(",").filter(Boolean));
+    if (focusParam) setFocusId(focusParam);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -117,27 +153,57 @@ export default function Dashboard() {
       ) : (
         <>
           <hr className="hdivider" />
-          <KpiStrip
-            models={models}
-            valid={activeValid}
-            responses={activeResponses}
-            summary={activeSummary}
-          />
-          <VerdictBanner summary={activeSummary} />
-          <QualitySection models={models} valid={activeValid} />
-          <EfficiencySection
-            models={models}
-            responses={activeResponses}
-            summary={activeSummary}
-          />
-          <ValueSection summary={activeSummary} />
-          <CategorySection models={models} valid={activeValid} prompts={data.prompts} />
-          <DrilldownSection
-            models={models}
-            valid={activeValid}
-            responses={activeResponses}
-            prompts={data.prompts}
-          />
+          {/* Section visibility chips */}
+          <div className="mb-1 flex flex-wrap items-center gap-1.5">
+            <span className="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-mute">
+              sections:
+            </span>
+            {SECTIONS.map((s) => (
+              <button
+                key={s}
+                className={`pill ${show(s) ? "pill-amber" : "pill-mute"}`}
+                onClick={() => toggleSection(s)}
+              >
+                {s}
+              </button>
+            ))}
+            <button className="pill pill-mute" onClick={() => setSections([])}>
+              expand all
+            </button>
+            <button className="pill pill-mute" onClick={() => setSections([...SECTIONS])}>
+              collapse all
+            </button>
+          </div>
+          {show("Overview") && (
+            <KpiStrip
+              models={models}
+              valid={activeValid}
+              responses={activeResponses}
+              summary={activeSummary}
+            />
+          )}
+          {show("Verdict") && <VerdictBanner summary={activeSummary} />}
+          {show("Quality") && <QualitySection models={models} valid={activeValid} />}
+          {show("Efficiency") && (
+            <EfficiencySection
+              models={models}
+              responses={activeResponses}
+              summary={activeSummary}
+            />
+          )}
+          {show("Value") && <ValueSection summary={activeSummary} />}
+          {show("Category") && (
+            <CategorySection models={models} valid={activeValid} prompts={data.prompts} />
+          )}
+          {show("Drill-down") && (
+            <DrilldownSection
+              models={models}
+              valid={activeValid}
+              responses={activeResponses}
+              prompts={data.prompts}
+              focusId={focusId}
+            />
+          )}
         </>
       )}
 

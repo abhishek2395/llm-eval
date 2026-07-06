@@ -19,6 +19,7 @@ export interface ResponseRow {
   tokens_per_second: number;
   verbosity_ratio: number;
   refused: boolean;
+  retries?: number;
   error: string | null;
 }
 
