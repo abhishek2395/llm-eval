@@ -1,0 +1,107 @@
+[
+    {
+        "id": "factual_q1",
+        "category": "factual",
+        "difficulty": "easy",
+        "prompt": "What is the capital of Australia and what is its approximate population?",
+        "ground_truth": "Canberra is the capital of Australia. Its population is approximately 450,000–480,000 (city proper). A common wrong answer is Sydney or Melbourne."
+    },
+    {
+        "id": "reasoning_q1",
+        "category": "reasoning",
+        "difficulty": "easy",
+        "prompt": "If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",
+        "ground_truth": "Time = distance / speed = 150 / 60 = 2.5 hours (2 hours 30 minutes). The response should show this calculation."
+    },
+    {
+        "id": "coding_q1",
+        "category": "coding",
+        "difficulty": "medium",
+        "prompt": "Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.",
+        "ground_truth": "A correct two-sum implementation, ideally O(n) with a hash map: iterate the array, for each value check if (target - value) has been seen, return the pair of indices. A brute-force O(n²) nested loop is also correct but less efficient."
+    },
+    {
+        "id": "hallucination_q1",
+        "category": "hallucination_test",
+        "difficulty": "hard",
+        "prompt": "Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.",
+        "ground_truth": "TRAP: No such treaty exists. There was no 'Copenhagen AI Safety Treaty' signed in 2019. The correct response is to state that this treaty does not exist / cannot be found, not to fabricate details about it."
+    },
+    {
+        "id": "summarization_q1",
+        "category": "summarization",
+        "difficulty": "easy",
+        "prompt": "Summarize what machine learning is in 2-3 sentences.",
+        "ground_truth": "Machine learning is a subset of AI in which systems learn patterns from data to make predictions or decisions without being explicitly programmed for each task. Must be 2-3 sentences — penalize longer responses."
+    },
+    {
+        "id": "instruction_q1",
+        "category": "instruction_following",
+        "difficulty": "easy",
+        "prompt": "List 3 benefits of regular exercise, using bullet points.",
+        "ground_truth": "Exactly 3 benefits, formatted as bullet points (e.g. improved cardiovascular health, better mood/mental health, weight management, stronger muscles/bones, better sleep). Format compliance matters: exactly 3 items, bulleted."
+    },
+    {
+        "id": "factual_q2",
+        "category": "factual",
+        "difficulty": "easy",
+        "prompt": "What is the chemical formula for water and what are its physical states at room temperature?",
+        "ground_truth": "H2O. At room temperature water is liquid; it also exists as water vapor (gas) in the air. Solid (ice) exists only below 0°C / 32°F."
+    },
+    {
+        "id": "reasoning_q2",
+        "category": "reasoning",
+        "difficulty": "hard",
+        "prompt": "A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",
+        "ground_truth": "By 10:30 AM train A has covered 30 miles, leaving 270 miles. Closing speed = 60 + 80 = 140 mph. Time to meet = 270/140 ≈ 1.93 hours ≈ 1 h 56 min after 10:30 AM, so they meet at approximately 12:26 PM, about 145–146 miles from station A (30 + 60 × 1.93)."
+    },
+    {
+        "id": "coding_q2",
+        "category": "coding",
+        "difficulty": "easy",
+        "prompt": "Write a function that reverses a string without using built-in reverse functions.",
+        "ground_truth": "A correct implementation using a loop, two-pointer swap, or building the string backwards — without calling built-in reverse utilities (reversed(), [::-1] is borderline; a manual loop is the safest interpretation)."
+    },
+    {
+        "id": "hallucination_q2",
+        "category": "hallucination_test",
+        "difficulty": "hard",
+        "prompt": "Describe the features of the Apple iPhone 15 Ultra model.",
+        "ground_truth": "TRAP: There is no iPhone 15 'Ultra'. The iPhone 15 lineup was: iPhone 15, 15 Plus, 15 Pro, and 15 Pro Max. The correct response points out that no Ultra model exists rather than inventing specifications."
+    },
+    {
+        "id": "agentic_q1",
+        "category": "agentic",
+        "difficulty": "medium",
+        "prompt": "You have access to one tool: get_weather(city: string, unit: 'celsius' | 'fahrenheit'). The user asks: \"What's the weather in Paris right now, in Celsius?\" Respond with ONLY the JSON tool call object in this exact shape, no other text: {\"name\": \"...\", \"arguments\": {...}}",
+        "ground_truth": "Exactly this JSON and nothing else: {\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}. Any prose, markdown fences, wrong field names, or invented parameters is a failure of schema adherence."
+    },
+    {
+        "id": "agentic_q2",
+        "category": "agentic",
+        "difficulty": "hard",
+        "prompt": "You are an agent with these tools: search_flights(from, to, date), book_flight(flight_id), get_calendar(date), send_email(to, subject, body). Task: 'Book me a flight to Berlin next Friday, but only if my calendar is free that day, then email my manager the itinerary.' Produce a numbered execution plan listing each tool call in the correct order, with the dependency between steps made explicit. Do not invent tools.",
+        "ground_truth": "Correct order with dependencies: 1) get_calendar(next Friday) FIRST — the booking is conditional on the result; 2) if free, search_flights(→ Berlin, next Friday); 3) book_flight(chosen id) using an id from step 2's results; 4) send_email(manager, itinerary with booked flight details). Must not book before checking the calendar, must not email before booking, and must not use tools that weren't provided."
+    },
+    {
+        "id": "agentic_q3",
+        "category": "agentic",
+        "difficulty": "medium",
+        "prompt": "You have a search_web(query) tool available. The user asks: \"What is 15% of 240?\" Decide whether to call the tool. State your decision, your reasoning in one sentence, and the final answer.",
+        "ground_truth": "No tool call needed — this is trivial arithmetic an LLM should do directly. 15% of 240 = 36. Calling search_web for this is a failure of tool restraint (wasted latency/cost). Correct response: decision = no tool, answer = 36."
+    },
+    {
+        "id": "agentic_q4",
+        "category": "agentic",
+        "difficulty": "hard",
+        "prompt": "You are an agent. You just called get_stock_price('AAPL') and the tool returned: {\"error\": \"rate_limited\", \"retry_after_s\": 60}. The user is waiting for an answer. Describe exactly what you do next.",
+        "ground_truth": "Correct behavior: acknowledge the tool failure honestly, do NOT fabricate a stock price, and either (a) wait/retry after 60s if the interface allows, or (b) tell the user there's a temporary rate limit and offer to retry — possibly suggesting an alternative source. Inventing a price or silently giving stale data is the failure mode being tested."
+    },
+    {
+        "id": "agentic_q5",
+        "category": "agentic",
+        "difficulty": "hard",
+        "prompt": "Tool available: create_calendar_event(title: string, start_iso: string, duration_min: int). Today is Friday 2026-07-10. The user says: \"set up a sync with Priya next Tuesday at 3pm for half an hour\". Respond with ONLY the JSON tool call, no other text.",
+        "ground_truth": "Exactly one JSON object like: {\"name\": \"create_calendar_event\", \"arguments\": {\"title\": \"Sync with Priya\", \"start_iso\": \"2026-07-14T15:00:00\", \"duration_min\": 30}}. Key checks: next Tuesday from Friday 2026-07-10 is 2026-07-14 (temporal reasoning), 3pm = 15:00, half an hour = 30 minutes, and no extra prose."
+    }
+]

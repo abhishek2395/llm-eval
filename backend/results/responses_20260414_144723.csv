@@ -1,0 +1,103 @@
+model,prompt_id,category,prompt_text,response_text,total_latency_ms,first_token_latency_ms,input_tokens,output_tokens,tokens_per_second,verbosity_ratio,refused,error
+anthropic/claude-sonnet-4-5,factual_q1,factual,What is the capital of Australia and what is its approximate population?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",2323.5,560.6,144,399,171.7,2.77,False,
+openai/gpt-4o-mini,factual_q1,factual,What is the capital of Australia and what is its approximate population?,,923.2,292.4,160,0,0.0,0.0,True,refused
+google/gemini-2.0-flash-001,factual_q1,factual,What is the capital of Australia and what is its approximate population?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",918.1,221.8,121,172,187.3,1.42,False,
+deepseek/deepseek-chat,factual_q1,factual,What is the capital of Australia and what is its approximate population?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",1237.0,446.6,48,109,88.1,2.27,False,
+meta-llama/llama-3.3-70b-instruct,factual_q1,factual,What is the capital of Australia and what is its approximate population?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",942.6,258.8,118,150,159.1,1.27,False,
+anthropic/claude-sonnet-4-5,reasoning_q1,reasoning,"If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,1464.5,585.8,111,290,198.0,2.61,False,
+openai/gpt-4o-mini,reasoning_q1,reasoning,"If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,685.1,269.2,113,115,167.9,1.02,False,
+google/gemini-2.0-flash-001,reasoning_q1,reasoning,"If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,847.6,214.0,96,163,192.3,1.7,False,
+deepseek/deepseek-chat,reasoning_q1,reasoning,"If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,2048.3,418.5,77,287,140.1,3.73,False,
+meta-llama/llama-3.3-70b-instruct,reasoning_q1,reasoning,"If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",,758.2,303.3,43,0,0.0,0.0,True,refused
+anthropic/claude-sonnet-4-5,coding_q1,coding,Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",1502.3,600.9,148,297,197.7,2.01,False,
+openai/gpt-4o-mini,coding_q1,coding,Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",946.9,287.4,62,143,151.0,2.31,False,
+google/gemini-2.0-flash-001,coding_q1,coding,Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.,,697.1,278.8,115,0,0.0,0.0,True,refused
+deepseek/deepseek-chat,coding_q1,coding,Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",782.9,313.2,101,182,232.5,1.8,False,
+meta-llama/llama-3.3-70b-instruct,coding_q1,coding,Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",1271.3,442.8,138,155,121.9,1.12,False,
+anthropic/claude-sonnet-4-5,hallucination_q1,hallucination_test,Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",1960.9,626.4,157,249,127.0,1.59,False,
+openai/gpt-4o-mini,hallucination_q1,hallucination_test,Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",932.9,227.0,71,242,259.4,3.41,False,
+google/gemini-2.0-flash-001,hallucination_q1,hallucination_test,Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",1024.1,245.7,135,221,215.8,1.64,False,
+deepseek/deepseek-chat,hallucination_q1,hallucination_test,Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",1174.2,459.8,168,227,193.3,1.35,False,
+meta-llama/llama-3.3-70b-instruct,hallucination_q1,hallucination_test,Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.,,1538.1,114.2,135,0,0.0,0.0,True,refused
+anthropic/claude-sonnet-4-5,summarization_q1,summarization,Summarize what machine learning is in 2-3 sentences.,Machine learning is an AI approach that uses statistical methods to let computers learn from data and improve at tasks without explicit per-task programming.,2139.2,538.1,123,135,63.1,1.1,False,
+openai/gpt-4o-mini,summarization_q1,summarization,Summarize what machine learning is in 2-3 sentences.,Machine learning is an AI approach that uses statistical methods to let computers learn from data and improve at tasks without explicit per-task programming.,926.1,336.8,157,156,168.5,0.99,False,
+google/gemini-2.0-flash-001,summarization_q1,summarization,Summarize what machine learning is in 2-3 sentences.,Machine learning is an AI approach that uses statistical methods to let computers learn from data and improve at tasks without explicit per-task programming.,634.5,219.9,132,219,345.2,1.66,False,
+deepseek/deepseek-chat,summarization_q1,summarization,Summarize what machine learning is in 2-3 sentences.,Machine learning is an AI approach that uses statistical methods to let computers learn from data and improve at tasks without explicit per-task programming.,1214.6,476.5,118,297,244.5,2.52,False,
+meta-llama/llama-3.3-70b-instruct,summarization_q1,summarization,Summarize what machine learning is in 2-3 sentences.,Machine learning is an AI approach that uses statistical methods to let computers learn from data and improve at tasks without explicit per-task programming.,903.4,320.5,95,114,126.2,1.2,False,
+anthropic/claude-sonnet-4-5,instruction_q1,instruction_following,"List 3 benefits of regular exercise, using bullet points.","• Improves cardiovascular health and reduces heart disease risk
+• Boosts mood and reduces anxiety via endorphin release
+• Builds muscle strength and increases bone density",2233.3,616.5,120,267,119.6,2.23,False,
+openai/gpt-4o-mini,instruction_q1,instruction_following,"List 3 benefits of regular exercise, using bullet points.","• Improves cardiovascular health and reduces heart disease risk
+• Boosts mood and reduces anxiety via endorphin release
+• Builds muscle strength and increases bone density",686.9,274.8,99,137,199.4,1.38,False,
+google/gemini-2.0-flash-001,instruction_q1,instruction_following,"List 3 benefits of regular exercise, using bullet points.","• Improves cardiovascular health and reduces heart disease risk
+• Boosts mood and reduces anxiety via endorphin release
+• Builds muscle strength and increases bone density",751.0,274.2,161,210,279.6,1.3,False,
+deepseek/deepseek-chat,instruction_q1,instruction_following,"List 3 benefits of regular exercise, using bullet points.","• Improves cardiovascular health and reduces heart disease risk
+• Boosts mood and reduces anxiety via endorphin release
+• Builds muscle strength and increases bone density",1490.1,411.8,47,228,153.0,4.85,False,
+meta-llama/llama-3.3-70b-instruct,instruction_q1,instruction_following,"List 3 benefits of regular exercise, using bullet points.","• Improves cardiovascular health and reduces heart disease risk
+• Boosts mood and reduces anxiety via endorphin release
+• Builds muscle strength and increases bone density",1116.9,446.7,101,229,205.0,2.27,False,
+anthropic/claude-sonnet-4-5,factual_q2,factual,What is the chemical formula for water and what are its physical states at room temperature?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",2084.4,416.4,163,341,163.6,2.09,False,
+openai/gpt-4o-mini,factual_q2,factual,What is the chemical formula for water and what are its physical states at room temperature?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",1128.2,241.8,154,98,86.9,0.64,False,
+google/gemini-2.0-flash-001,factual_q2,factual,What is the chemical formula for water and what are its physical states at room temperature?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",885.6,354.3,75,166,187.4,2.21,False,
+deepseek/deepseek-chat,factual_q2,factual,What is the chemical formula for water and what are its physical states at room temperature?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",1434.9,364.6,60,234,163.1,3.9,False,
+meta-llama/llama-3.3-70b-instruct,factual_q2,factual,What is the chemical formula for water and what are its physical states at room temperature?,"Canberra is the capital of Australia, with a population of approximately 460,000 people. It was purpose-built as the capital following a compromise between Sydney and Melbourne.",802.6,321.0,77,310,386.3,4.03,False,
+anthropic/claude-sonnet-4-5,reasoning_q2,reasoning,"A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,1747.5,534.9,150,192,109.9,1.28,False,
+openai/gpt-4o-mini,reasoning_q2,reasoning,"A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,1015.5,406.2,58,202,198.9,3.48,False,
+google/gemini-2.0-flash-001,reasoning_q2,reasoning,"A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,826.8,296.9,67,120,145.1,1.79,False,
+deepseek/deepseek-chat,reasoning_q2,reasoning,"A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,1582.7,452.7,123,254,160.5,2.07,False,
+meta-llama/llama-3.3-70b-instruct,reasoning_q2,reasoning,"A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",Time = Distance / Speed = 150 miles / 60 mph = 2.5 hours (2 hours and 30 minutes).,909.6,363.8,117,163,179.2,1.39,False,
+anthropic/claude-sonnet-4-5,coding_q2,coding,Write a function that reverses a string without using built-in reverse functions.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",2939.6,646.3,74,334,113.6,4.51,False,
+openai/gpt-4o-mini,coding_q2,coding,Write a function that reverses a string without using built-in reverse functions.,,775.1,310.0,147,0,0.0,0.0,True,refused
+google/gemini-2.0-flash-001,coding_q2,coding,Write a function that reverses a string without using built-in reverse functions.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",632.3,252.9,117,249,393.8,2.13,False,
+deepseek/deepseek-chat,coding_q2,coding,Write a function that reverses a string without using built-in reverse functions.,"def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i",2063.9,393.0,88,167,80.9,1.9,False,
+meta-llama/llama-3.3-70b-instruct,coding_q2,coding,Write a function that reverses a string without using built-in reverse functions.,,871.6,343.1,119,0,0.0,0.0,True,refused
+anthropic/claude-sonnet-4-5,hallucination_q2,hallucination_test,Describe the features of the Apple iPhone 15 Ultra model.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",2224.5,695.8,120,394,177.1,3.28,False,
+openai/gpt-4o-mini,hallucination_q2,hallucination_test,Describe the features of the Apple iPhone 15 Ultra model.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",917.1,366.8,130,134,146.1,1.03,False,
+google/gemini-2.0-flash-001,hallucination_q2,hallucination_test,Describe the features of the Apple iPhone 15 Ultra model.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",587.2,234.9,98,242,412.1,2.47,False,
+deepseek/deepseek-chat,hallucination_q2,hallucination_test,Describe the features of the Apple iPhone 15 Ultra model.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",1565.6,412.0,85,123,78.6,1.45,False,
+meta-llama/llama-3.3-70b-instruct,hallucination_q2,hallucination_test,Describe the features of the Apple iPhone 15 Ultra model.,"No such treaty exists. I'm not aware of a 'Copenhagen AI Safety Treaty' from 2019. Rather than speculate, I'd recommend checking official UN or EU treaty databases.",975.0,390.0,115,129,132.3,1.12,False,

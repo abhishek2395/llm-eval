@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets
+.env
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.vercel
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Backend artifacts
+backend/reports/
+.gstack/
