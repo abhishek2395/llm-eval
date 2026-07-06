@@ -44,6 +44,19 @@ def _summary_rows(r: pd.DataFrame, s: pd.DataFrame) -> list[dict]:
         sc = valid[valid["model"] == m].to_dict("records")
         if resp and sc:
             row = enrich_pricing(build_efficiency_row(m, resp, sc), m)
+            # True refusals (model declining in text, judged by the rubric's
+            # model_refused flag) replace the legacy infra-error-based rate.
+            if "model_refused" in valid.columns:
+                m_rows = valid[valid["model"] == m]
+                row["refusal_rate_pct"] = round(
+                    float(m_rows["model_refused"].fillna(False).astype(bool).mean()) * 100, 1
+                )
+            avg_conf = None
+            if "judge_confidence" in valid.columns:
+                cvals = valid[valid["model"] == m]["judge_confidence"].dropna()
+                if len(cvals):
+                    avg_conf = round(float(cvals.mean()), 3)
+            row["judge_confidence_avg"] = avg_conf
             row["meta"] = model_meta(m)
             rows.append(clean(row))
     return rows

@@ -72,6 +72,18 @@ function ModelCell({
               )}
             </div>
           )}
+          {(score.model_refused || score.judge_confidence != null) && (
+            <div className="mt-1.5">
+              {score.model_refused && (
+                <span className="pill pill-red">model refused</span>
+              )}
+              {score.judge_confidence != null && (
+                <span className="pill pill-mute">
+                  judge conf {Number(score.judge_confidence).toFixed(2)}
+                </span>
+              )}
+            </div>
+          )}
           {score.one_line_verdict && (
             <div
               className="mt-2 rounded-r border-l-2 bg-white/[0.03] px-2.5 py-1.5 text-[0.78rem] leading-normal"

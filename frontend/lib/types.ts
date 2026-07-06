@@ -39,6 +39,9 @@ export interface ScoreRow {
   notable_issues: string;
   one_line_verdict: string;
   judge_error: string | null;
+  /** V2 rubric extras — absent on rows judged before the rubric change */
+  model_refused?: boolean | null;
+  judge_confidence?: number | null;
 }
 
 export type Dimension =
@@ -91,6 +94,7 @@ export interface EfficiencyRow {
   input_price_per_1m: number;
   output_price_per_1m: number;
   context_length?: number;
+  judge_confidence_avg?: number | null;
   meta: ModelMeta;
 }
 

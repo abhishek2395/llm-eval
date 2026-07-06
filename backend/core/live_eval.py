@@ -199,6 +199,13 @@ MODEL RESPONSE TO EVALUATE:
 
         scores = {d: int(data.get(d, 3)) for d in dims}
 
+        # V2 rubric extras: true refusal flag + per-dimension judge confidence
+        conf = data.get("confidence") if isinstance(data.get("confidence"), dict) else {}
+        conf_vals = [float(conf[d]) for d in dims
+                     if isinstance(conf.get(d), (int, float))]
+        judge_confidence = round(sum(conf_vals) / len(conf_vals), 3) if conf_vals else None
+        model_refused = bool(data.get("model_refused", False))
+
         # Value index — verbosity penalty from the real output token count
         w = VALUE_WEIGHTS
         weighted = sum(scores[d] * w.get(d, 0) for d in dims)
@@ -214,6 +221,9 @@ MODEL RESPONSE TO EVALUATE:
             "value_index": value_index,
             "useful_density": round((composite / max(out_tok, 1)) * 100, 3),
             "consistency_score": 0.85,  # single-run estimate
+            "model_refused": model_refused,
+            "judge_confidence": judge_confidence,
+            "judge_confidence_dims": json.dumps(conf) if conf else "",
             "rationale": data.get("rationale", ""),
             "notable_issues": data.get("notable_issues", "none"),
             "one_line_verdict": data.get("one_line_verdict", ""),
@@ -224,7 +234,9 @@ MODEL RESPONSE TO EVALUATE:
             "accuracy": 0, "hallucination_resistance": 0, "relevance": 0,
             "instruction_following": 0, "conciseness": 0, "task_completion": 0,
             "composite_score": 0.0, "value_index": 0.0, "useful_density": 0.0,
-            "consistency_score": 0.0, "rationale": "", "notable_issues": "",
+            "consistency_score": 0.0, "model_refused": False,
+            "judge_confidence": None, "judge_confidence_dims": "",
+            "rationale": "", "notable_issues": "",
             "one_line_verdict": "", "judge_error": str(e),
         }
 

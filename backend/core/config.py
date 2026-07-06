@@ -202,10 +202,21 @@ Respond ONLY in this exact JSON format — no preamble, no markdown fences:
   "conciseness": <int 1-5>,
   "task_completion": <int 1-5>,
   "composite_score": <float, average of all six dimensions>,
+  "model_refused": <true if the model DECLINED to do the task (safety refusal or "I can't"), else false>,
+  "confidence": {
+    "accuracy": <float 0-1, how confident you are in this dimension's score>,
+    "hallucination_resistance": <float 0-1>,
+    "relevance": <float 0-1>,
+    "instruction_following": <float 0-1>,
+    "conciseness": <float 0-1>,
+    "task_completion": <float 0-1>
+  },
   "rationale": "<2-3 sentences explaining the scores>",
   "notable_issues": "<specific problems found, or 'none'>",
   "one_line_verdict": "<single sentence a non-technical user would understand>"
 }
+Confidence guidance: 1.0 = ground truth makes this unambiguous; ~0.5 = judgment
+call (no ground truth, subjective dimension); low = you are guessing.
 """
 
 # ── Value Index weights ───────────────────────────────────────────────────────
