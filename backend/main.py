@@ -36,11 +36,15 @@ app = FastAPI(
     description="Quality · Efficiency · Value-per-$20 · 300+ models via OpenRouter",
 )
 
+import os  # noqa: E402
+
+_extra_origins = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        *_extra_origins,
     ],
     allow_origin_regex=r"https://.*\.vercel\.app",
     allow_methods=["*"],

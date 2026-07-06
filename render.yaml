@@ -1,0 +1,13 @@
+# Render blueprint — deploys the FastAPI backend from backend/Dockerfile.
+# Demo mode: no OPENROUTER_API_KEY is set server-side; visitors supply their
+# own key in the dashboard sidebar (sent per-request, never stored).
+services:
+  - type: web
+    name: llm-eval-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: ""   # optional: add your custom frontend domain(s), comma-separated

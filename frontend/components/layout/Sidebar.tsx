@@ -12,6 +12,7 @@ import {
   FileText,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { getVisitorKey, setVisitorKey } from "@/lib/key";
 import type { HealthResponse } from "@/lib/types";
 
 const NAV = [
@@ -26,6 +27,16 @@ export function Sidebar() {
   const pathname = usePathname();
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [healthError, setHealthError] = useState(false);
+  const [visitorKey, setVisitorKeyState] = useState("");
+
+  useEffect(() => {
+    setVisitorKeyState(getVisitorKey());
+  }, []);
+
+  const saveKey = (v: string) => {
+    setVisitorKeyState(v);
+    setVisitorKey(v);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -85,18 +96,30 @@ export function Sidebar() {
 
       <div className="flex-1" />
 
-      {/* API status */}
+      {/* API status + visitor key */}
       <div className="px-1 max-lg:px-0">
         {healthError ? (
           <span className="pill pill-red">⚠ API offline</span>
         ) : health ? (
           health.api_key_set ? (
-            <span className="pill pill-green">● key set</span>
+            <span className="pill pill-green">● key set (server)</span>
+          ) : visitorKey ? (
+            <span className="pill pill-green">● key set (yours)</span>
           ) : (
             <span className="pill pill-red">⚠ no key</span>
           )
         ) : (
           <span className="pill pill-mute">connecting…</span>
+        )}
+        {health && !health.api_key_set && (
+          <input
+            type="password"
+            className="panel-input mt-2 w-full font-mono text-[0.65rem] max-lg:hidden"
+            placeholder="sk-or-… your OpenRouter key"
+            value={visitorKey}
+            onChange={(e) => saveKey(e.target.value)}
+            title="Stored only in your browser (localStorage); sent per-request to run evals."
+          />
         )}
         {health && (
           <div className="mt-2 font-mono text-[0.62rem] leading-relaxed text-mute max-lg:hidden">

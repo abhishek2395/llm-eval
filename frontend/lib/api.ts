@@ -2,6 +2,7 @@
  * api.ts — typed client for the FastAPI backend.
  */
 
+import { withVisitorKey } from "./key";
 import type {
   AgenticRow,
   AgenticSummary,
@@ -85,17 +86,19 @@ export const api = {
     get<{ scores: JudgeScoreRow[]; judges: string[] }>("/judge/scores"),
   judgeAgreement: () => get<AgreementResponse>("/judge/agreement"),
   judgeStreamUrl: (judge: string, models: string[]) =>
-    `${API_BASE}/judge/stream?judge=${encodeURIComponent(judge)}&models=${encodeURIComponent(models.join(","))}`,
+    withVisitorKey(
+      `${API_BASE}/judge/stream?judge=${encodeURIComponent(judge)}&models=${encodeURIComponent(models.join(","))}`,
+    ),
 
   agenticTasks: () => get<{ tasks: AgenticTask[] }>("/agentic/tasks"),
   agenticResults: () =>
     get<{ rows: AgenticRow[]; summary: AgenticSummary[] }>("/agentic/results"),
   agenticStreamUrl: (model: string) =>
-    `${API_BASE}/agentic/stream?model=${encodeURIComponent(model)}`,
+    withVisitorKey(`${API_BASE}/agentic/stream?model=${encodeURIComponent(model)}`),
 
   /** URL for the SSE eval stream (consumed with EventSource). */
   evalStreamUrl: (model: string) =>
-    `${API_BASE}/eval/stream?model=${encodeURIComponent(model)}`,
+    withVisitorKey(`${API_BASE}/eval/stream?model=${encodeURIComponent(model)}`),
 };
 
 /** Direct-download / share URLs (opened in a new tab, not fetched). */

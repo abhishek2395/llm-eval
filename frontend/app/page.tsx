@@ -14,6 +14,7 @@ import { VerdictBanner } from "@/components/sections/VerdictBanner";
 import { useEvalData } from "@/hooks/useEvalData";
 import { useEvalStream } from "@/hooks/useEvalStream";
 import { api } from "@/lib/api";
+import { getVisitorKey } from "@/lib/key";
 
 export default function Dashboard() {
   const data = useEvalData();
@@ -22,8 +23,8 @@ export default function Dashboard() {
   useEffect(() => {
     api
       .health()
-      .then((h) => setKeySet(h.api_key_set))
-      .catch(() => setKeySet(false));
+      .then((h) => setKeySet(h.api_key_set || Boolean(getVisitorKey())))
+      .catch(() => setKeySet(Boolean(getVisitorKey())));
   }, []);
 
   const { refresh } = data;
