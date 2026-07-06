@@ -81,3 +81,30 @@ def stream_eval(
             yield _sse(update)
 
     return StreamingResponse(event_gen(), media_type="text/event-stream", headers=SSE_HEADERS)
+
+
+@router.get("/temp/stream")
+def temp_stream(
+    model: str = Query(...),
+    api_key: str | None = Query(None),
+    judge: str | None = Query(None),
+):
+    """Temperature sensitivity sweep (one prompt per category × 0.0/0.3/0.7)."""
+    from temp_eval import run_temp_sensitivity
+
+    key = api_key or OPENROUTER_API_KEY
+    if not key:
+        raise HTTPException(status_code=400, detail="No OpenRouter API key configured.")
+
+    def event_gen():
+        for update in run_temp_sensitivity(model, key, judge_model=judge):
+            yield _sse(update)
+
+    return StreamingResponse(event_gen(), media_type="text/event-stream", headers=SSE_HEADERS)
+
+
+@router.get("/temp/results")
+def temp_results(model: str = Query(...)):
+    from temp_eval import sensitivity_report
+
+    return clean(sensitivity_report(model))

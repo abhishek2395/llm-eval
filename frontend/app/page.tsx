@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { CatalogBrowser } from "@/components/eval/CatalogBrowser";
 import { EvalPanel, type CostEstimator } from "@/components/eval/EvalPanel";
 import { JudgePanel } from "@/components/eval/JudgePanel";
+import { TempPanel } from "@/components/eval/TempPanel";
 import { CategorySection } from "@/components/sections/CategorySection";
 import { DrilldownSection } from "@/components/sections/DrilldownSection";
 import { EfficiencySection } from "@/components/sections/EfficiencySection";
@@ -136,6 +137,10 @@ export default function Dashboard() {
 
       <div className="mt-3">
         <JudgePanel activeModels={models} />
+      </div>
+
+      <div className="mt-3">
+        <TempPanel activeModels={models} />
       </div>
 
       {data.loading ? (
