@@ -17,6 +17,28 @@
   --purple: #a855f7;
 }
 
+/* ── Light mode — light chrome, dark instrument wells for charts ────────── */
+html.light {
+  --bg: #eef2f8;
+  --bg2: #ffffff;
+  --bg3: #e3e9f3;
+  --border: #cdd8e8;
+  --text: #17233b;
+  --text-mute: #5d6b82;
+  --amber: #b45309;
+}
+
+html.light .score-bar-bg { background: rgba(23, 35, 59, 0.08); }
+html.light .pill-mute { background: rgba(23, 35, 59, 0.04); }
+html.light .verdict-neutral { background: rgba(23, 35, 59, 0.03); }
+html.light .verdict-winner { background: rgba(180, 83, 9, 0.06); }
+
+/* Plotly charts stay dark-themed — give them recessed dark wells */
+html.light .js-plotly-plot {
+  background: #0d1424;
+  border-radius: 10px;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-bg2: var(--bg2);

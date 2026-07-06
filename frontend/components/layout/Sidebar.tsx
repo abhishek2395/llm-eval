@@ -10,6 +10,8 @@ import {
   GitCompareArrows,
   ListChecks,
   FileText,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { getVisitorKey, setVisitorKey } from "@/lib/key";
@@ -28,10 +30,23 @@ export function Sidebar() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [healthError, setHealthError] = useState(false);
   const [visitorKey, setVisitorKeyState] = useState("");
+  const [light, setLight] = useState(false);
 
   useEffect(() => {
     setVisitorKeyState(getVisitorKey());
+    setLight(document.documentElement.classList.contains("light"));
   }, []);
+
+  const toggleTheme = () => {
+    const next = !light;
+    setLight(next);
+    document.documentElement.classList.toggle("light", next);
+    try {
+      localStorage.setItem("llm-eval:theme", next ? "light" : "dark");
+    } catch {
+      /* ignore */
+    }
+  };
 
   const saveKey = (v: string) => {
     setVisitorKeyState(v);
@@ -95,6 +110,16 @@ export function Sidebar() {
       </nav>
 
       <div className="flex-1" />
+
+      {/* Theme toggle */}
+      <button
+        onClick={toggleTheme}
+        className="mb-3 flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[0.82rem] text-mute transition-colors hover:bg-bg3/60 hover:text-ink"
+        aria-label="toggle light/dark mode"
+      >
+        {light ? <Moon size={16} /> : <Sun size={16} />}
+        <span className="max-lg:hidden">{light ? "Dark mode" : "Light mode"}</span>
+      </button>
 
       {/* API status + visitor key */}
       <div className="px-1 max-lg:px-0">
