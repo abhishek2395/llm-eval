@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Bot,
   FlaskConical,
   LayoutDashboard,
   GitCompareArrows,
@@ -15,6 +16,7 @@ import type { HealthResponse } from "@/lib/types";
 
 const NAV = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/agentic", label: "Agentic", icon: Bot },
   { href: "/compare", label: "Compare", icon: GitCompareArrows },
   { href: "/prompts", label: "Prompts", icon: ListChecks },
   { href: "/report", label: "Report", icon: FileText },

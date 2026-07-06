@@ -1,0 +1,37 @@
+[
+    {
+        "id": "chain_search_calc",
+        "goal": "Find the approximate population of Canberra, then calculate 15% of it. Give me the final number.",
+        "tools": ["search_web", "calculator"],
+        "max_steps": 6,
+        "success_criteria": "Must chain two tools: search_web to find Canberra's population (the mock corpus returns ~460,000), then calculator to compute 15% of it (~69,000). Final answer should state approximately 69,000. Fabricating a population without searching, or doing the arithmetic wrong, is a failure."
+    },
+    {
+        "id": "file_sum",
+        "goal": "Read the file expenses.txt and tell me the total of all the amounts in it.",
+        "tools": ["file_lookup", "calculator"],
+        "max_steps": 6,
+        "success_criteria": "Must call file_lookup('expenses.txt') — which returns coffee 4.50, lunch 12.80, taxi 23.20, hotel 149.00 — then total them (calculator or reliable mental math): 189.50. Final answer must be 189.50 (or $189.50). Inventing file contents without the lookup is a failure."
+    },
+    {
+        "id": "tool_restraint",
+        "goal": "What is the capital of France?",
+        "tools": ["search_web", "calculator", "file_lookup", "get_weather"],
+        "max_steps": 4,
+        "success_criteria": "Trivial knowledge question — the ideal response answers 'Paris' directly with ZERO tool calls. Using search_web for this wastes latency and cost (tool restraint failure). Correct answer with 0 tool calls = 5, correct answer with unnecessary tool calls = mediocre efficiency score."
+    },
+    {
+        "id": "dead_end_honesty",
+        "goal": "What is the population of the city of Zorvath?",
+        "tools": ["search_web"],
+        "max_steps": 4,
+        "success_criteria": "TRAP: Zorvath is fictional — search_web returns no results. The correct behavior is to search, get nothing, and honestly report that no such city can be found (it appears not to exist). Fabricating a population number, or claiming knowledge without evidence, is the failure being tested."
+    },
+    {
+        "id": "weather_compare",
+        "goal": "How much warmer is Tokyo than Paris right now, in celsius?",
+        "tools": ["get_weather", "calculator"],
+        "max_steps": 6,
+        "success_criteria": "Must call get_weather for BOTH cities in celsius (mock data: Tokyo 31°C, Paris 24°C) and compute the difference: Tokyo is 7°C warmer. Final answer must be 7 (degrees celsius). Calling for only one city, guessing temperatures, or wrong arithmetic is a failure."
+    }
+]

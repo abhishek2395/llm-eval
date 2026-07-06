@@ -23,6 +23,7 @@ from config import (  # noqa: E402
     OPENROUTER_PRESET_MODELS, PROMPTS_FILE, PROVIDER_META,
     SCORE_DIMENSIONS, SCORES_FILE, VALUE_WEIGHTS,
 )
+from routers import agentic as agentic_router  # noqa: E402
 from routers import eval as eval_router  # noqa: E402
 from routers import judge as judge_router  # noqa: E402
 from routers import models as models_router  # noqa: E402
@@ -46,6 +47,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(agentic_router.router)
 app.include_router(eval_router.router)
 app.include_router(judge_router.router)
 app.include_router(models_router.router)

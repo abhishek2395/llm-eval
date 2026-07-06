@@ -141,6 +141,59 @@ export interface AgreementResponse {
   note?: string;
 }
 
+// ── Agentic harness ───────────────────────────────────────────────────────────
+
+export interface AgenticTask {
+  id: string;
+  goal: string;
+  tools: string[];
+  max_steps: number;
+  success_criteria: string;
+}
+
+export interface ToolCallRecord {
+  tool: string;
+  args: Record<string, unknown>;
+  valid: boolean;
+  result: string;
+}
+
+export interface AgenticRow {
+  model: string;
+  task_id: string;
+  steps: number;
+  tool_calls_total: number;
+  tool_calls_valid: number;
+  validity_pct: number;
+  max_steps_exhausted: boolean;
+  final_answer: string;
+  transcript: ToolCallRecord[];
+  input_tokens: number;
+  output_tokens: number;
+  latency_ms: number;
+  error: string | null;
+  task_success: number;
+  tool_efficiency: number;
+  honesty: number;
+  reasoning_quality: number;
+  composite_score: number;
+  one_line_verdict: string;
+  judge_error: string | null;
+}
+
+export interface AgenticSummary {
+  model: string;
+  meta: ModelMeta;
+  tasks_run: number;
+  success_avg: number;
+  composite_avg: number;
+  efficiency_avg: number;
+  honesty_avg: number;
+  avg_steps: number;
+  validity_pct: number;
+  avg_tokens: number;
+}
+
 // ── Catalog ───────────────────────────────────────────────────────────────────
 
 export interface CatalogModel {
