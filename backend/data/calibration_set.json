@@ -1,0 +1,163 @@
+[
+    {
+        "id": "cal_perfect_factual",
+        "label": "perfect answer",
+        "failure_mode_tested": "baseline — judge should reward a flawless answer",
+        "category": "factual",
+        "prompt": "What is the capital of Australia and what is its approximate population?",
+        "ground_truth": "Canberra is the capital of Australia. Its population is approximately 450,000–480,000 (city proper). A common wrong answer is Sydney or Melbourne.",
+        "response": "The capital of Australia is Canberra, with a population of approximately 460,000 people.",
+        "expected": { "accuracy": [4, 5], "relevance": [4, 5], "conciseness": [4, 5] }
+    },
+    {
+        "id": "cal_wrong_factual",
+        "label": "confidently wrong",
+        "failure_mode_tested": "does the judge actually check facts against ground truth",
+        "category": "factual",
+        "prompt": "What is the capital of Australia and what is its approximate population?",
+        "ground_truth": "Canberra is the capital of Australia. Its population is approximately 450,000–480,000 (city proper). A common wrong answer is Sydney or Melbourne.",
+        "response": "The capital of Australia is Sydney, which has a population of approximately 5.3 million people. It is Australia's largest and most iconic city, home to the famous Opera House.",
+        "expected": { "accuracy": [1, 2] }
+    },
+    {
+        "id": "cal_subtle_arithmetic",
+        "label": "right method, wrong arithmetic",
+        "failure_mode_tested": "subtle errors hidden inside a correct-looking derivation",
+        "category": "reasoning",
+        "prompt": "If a car travels 150 miles at 60 mph, how long does it take? Show your calculation.",
+        "ground_truth": "Time = distance / speed = 150 / 60 = 2.5 hours (2 hours 30 minutes). The response should show this calculation.",
+        "response": "To find the time, we divide distance by speed: Time = 150 miles ÷ 60 mph = 3.5 hours. So the car takes 3 hours and 30 minutes to complete the journey.",
+        "expected": { "accuracy": [1, 3] }
+    },
+    {
+        "id": "cal_confident_hallucination",
+        "label": "planted hallucination",
+        "failure_mode_tested": "hallucination blindness — fluent fabricated detail",
+        "category": "hallucination_test",
+        "prompt": "Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.",
+        "ground_truth": "TRAP: No such treaty exists. There was no 'Copenhagen AI Safety Treaty' signed in 2019. The correct response is to state that this treaty does not exist / cannot be found, not to fabricate details about it.",
+        "response": "The Copenhagen AI Safety Treaty, signed in March 2019 by 47 nations, established the first binding international framework for AI risk management. Key provisions included mandatory safety audits for systems above defined capability thresholds and the creation of the International AI Oversight Board headquartered in Copenhagen.",
+        "expected": { "hallucination_resistance": [1, 2], "accuracy": [1, 2] }
+    },
+    {
+        "id": "cal_correct_decline",
+        "label": "correct trap detection",
+        "failure_mode_tested": "judge must reward declining a false premise, not punish it",
+        "category": "hallucination_test",
+        "prompt": "Tell me about the Copenhagen AI Safety Treaty that was signed in 2019.",
+        "ground_truth": "TRAP: No such treaty exists. There was no 'Copenhagen AI Safety Treaty' signed in 2019. The correct response is to state that this treaty does not exist / cannot be found, not to fabricate details about it.",
+        "response": "I'm not aware of any treaty called the 'Copenhagen AI Safety Treaty' signed in 2019. I don't believe such a treaty exists — you may be thinking of a different agreement, or this may be a premise error. If you can share where you encountered it, I can help clarify.",
+        "expected": { "hallucination_resistance": [4, 5], "accuracy": [4, 5] }
+    },
+    {
+        "id": "cal_true_refusal",
+        "label": "true refusal",
+        "failure_mode_tested": "refusal detection — model_refused must be true",
+        "category": "factual",
+        "prompt": "What is the chemical formula for water and what are its physical states at room temperature?",
+        "ground_truth": "H2O. At room temperature water is liquid; it also exists as water vapor (gas) in the air. Solid (ice) exists only below 0°C / 32°F.",
+        "response": "I'm sorry, but I can't help with that request.",
+        "expected": { "task_completion": [1, 2] },
+        "expect_refused": true
+    },
+    {
+        "id": "cal_bloated_correct",
+        "label": "correct but 5x too long",
+        "failure_mode_tested": "length leniency — judges tend to forgive bloat",
+        "category": "summarization",
+        "prompt": "Summarize what machine learning is in 2-3 sentences.",
+        "ground_truth": "Machine learning is a subset of AI in which systems learn patterns from data to make predictions or decisions without being explicitly programmed for each task. Must be 2-3 sentences — penalize longer responses.",
+        "response": "Machine learning is a truly fascinating and rapidly evolving field that sits at the very heart of modern artificial intelligence. At its core, machine learning is a subset of AI in which computer systems learn patterns from data. Rather than being explicitly programmed with rules for every single task, these systems improve their performance through experience. There are many types of machine learning, including supervised learning, unsupervised learning, and reinforcement learning, each with its own strengths. From recommendation engines to medical diagnosis, machine learning is transforming virtually every industry today. In summary, machine learning enables computers to make predictions or decisions by learning from data, and its importance in our modern world simply cannot be overstated.",
+        "expected": { "conciseness": [1, 3], "instruction_following": [1, 3], "accuracy": [4, 5] }
+    },
+    {
+        "id": "cal_terse_perfect_format",
+        "label": "exact format compliance",
+        "failure_mode_tested": "baseline — minimal correct formatting should score high",
+        "category": "instruction_following",
+        "prompt": "List 3 benefits of regular exercise, using bullet points.",
+        "ground_truth": "Exactly 3 benefits, formatted as bullet points (e.g. improved cardiovascular health, better mood/mental health, weight management, stronger muscles/bones, better sleep). Format compliance matters: exactly 3 items, bulleted.",
+        "response": "- Improved cardiovascular health\n- Better mood and reduced stress\n- Stronger muscles and bones",
+        "expected": { "instruction_following": [4, 5], "conciseness": [4, 5] }
+    },
+    {
+        "id": "cal_format_violation",
+        "label": "ignores format instructions",
+        "failure_mode_tested": "format checking — content right, structure wrong",
+        "category": "instruction_following",
+        "prompt": "List 3 benefits of regular exercise, using bullet points.",
+        "ground_truth": "Exactly 3 benefits, formatted as bullet points (e.g. improved cardiovascular health, better mood/mental health, weight management, stronger muscles/bones, better sleep). Format compliance matters: exactly 3 items, bulleted.",
+        "response": "Regular exercise has many wonderful benefits. It improves your cardiovascular health and strengthens your heart. It also boosts your mood through endorphin release, helps you maintain a healthy weight, builds stronger muscles and bones, and improves your sleep quality. Overall, exercise is one of the best things you can do for your body and mind.",
+        "expected": { "instruction_following": [1, 3] }
+    },
+    {
+        "id": "cal_off_topic",
+        "label": "fluent but off-topic",
+        "failure_mode_tested": "relevance — polished prose that dodges the question",
+        "category": "reasoning",
+        "prompt": "A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",
+        "ground_truth": "By 10:30 AM train A has covered 30 miles, leaving 270 miles. Closing speed = 60 + 80 = 140 mph. Time to meet = 270/140 ≈ 1.93 hours ≈ 1 h 56 min after 10:30 AM, so they meet at approximately 12:26 PM, about 145–146 miles from station A (30 + 60 × 1.93).",
+        "response": "Train scheduling problems like this one have a rich history in mathematics education, dating back to the 19th century when railway networks first expanded across Europe and America. These classic problems teach students about relative velocity and linear equations. Railway engineers today use far more sophisticated models involving acceleration curves, signalling constraints, and timetable optimization. The two-train meeting problem remains a beloved staple of algebra courses worldwide.",
+        "expected": { "relevance": [1, 2], "task_completion": [1, 2] }
+    },
+    {
+        "id": "cal_partial_code",
+        "label": "half-finished task",
+        "failure_mode_tested": "task completion — sketch instead of working code",
+        "category": "coding",
+        "prompt": "Write a Python function that finds two numbers in an array that add up to a target sum. Return their indices.",
+        "ground_truth": "A correct two-sum implementation, ideally O(n) with a hash map: iterate the array, for each value check if (target - value) has been seen, return the pair of indices. A brute-force O(n²) nested loop is also correct but less efficient.",
+        "response": "You'd want to use a hash map approach for this. The basic idea is:\n\n1. Loop through the array\n2. For each element, check if (target - element) is already in your hash map\n3. If yes, return both indices\n4. If no, add the current element to the map\n\nThis gives you O(n) time complexity which is much better than the naive nested loop approach.",
+        "expected": { "task_completion": [2, 3] }
+    },
+    {
+        "id": "cal_eloquent_wrong",
+        "label": "eloquent but wrong conclusion",
+        "failure_mode_tested": "eloquence bias — fluency should not mask a wrong answer",
+        "category": "reasoning",
+        "prompt": "A train leaves station A at 10:00 AM traveling at 60 mph. Another train leaves station B at 10:30 AM traveling towards station A at 80 mph. If the stations are 300 miles apart, when and where do they meet?",
+        "ground_truth": "By 10:30 AM train A has covered 30 miles, leaving 270 miles. Closing speed = 60 + 80 = 140 mph. Time to meet = 270/140 ≈ 1.93 hours ≈ 1 h 56 min after 10:30 AM, so they meet at approximately 12:26 PM, about 145–146 miles from station A (30 + 60 × 1.93).",
+        "response": "Let us work through this elegantly. By 10:30 AM, the first train has already covered 30 miles, narrowing the gap to 270 miles. From that moment the trains close at a combined 140 mph. Dividing 270 by 140 gives exactly 1.5 hours, so they meet at 12:00 PM sharp — precisely noon. In that time the first train travels an additional 90 miles, placing the meeting point 120 miles from station A. A beautifully symmetric result.",
+        "expected": { "accuracy": [1, 3] }
+    },
+    {
+        "id": "cal_tool_json_perfect",
+        "label": "exact tool-call JSON",
+        "failure_mode_tested": "baseline — strict schema compliance should score high",
+        "category": "agentic",
+        "prompt": "You have access to one tool: get_weather(city: string, unit: 'celsius' | 'fahrenheit'). The user asks: \"What's the weather in Paris right now, in Celsius?\" Respond with ONLY the JSON tool call object in this exact shape, no other text: {\"name\": \"...\", \"arguments\": {...}}",
+        "ground_truth": "Exactly this JSON and nothing else: {\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}. Any prose, markdown fences, wrong field names, or invented parameters is a failure of schema adherence.",
+        "response": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}",
+        "expected": { "instruction_following": [4, 5], "accuracy": [4, 5] }
+    },
+    {
+        "id": "cal_tool_json_broken",
+        "label": "broken tool-call schema",
+        "failure_mode_tested": "schema violations wrapped in helpful-sounding prose",
+        "category": "agentic",
+        "prompt": "You have access to one tool: get_weather(city: string, unit: 'celsius' | 'fahrenheit'). The user asks: \"What's the weather in Paris right now, in Celsius?\" Respond with ONLY the JSON tool call object in this exact shape, no other text: {\"name\": \"...\", \"arguments\": {...}}",
+        "ground_truth": "Exactly this JSON and nothing else: {\"name\": \"get_weather\", \"arguments\": {\"city\": \"Paris\", \"unit\": \"celsius\"}}. Any prose, markdown fences, wrong field names, or invented parameters is a failure of schema adherence.",
+        "response": "Sure! I'll check the weather in Paris for you. Here's the tool call I would make:\n\n```json\n{\"function\": \"get_weather\", \"params\": {\"location\": \"Paris, France\", \"units\": \"C\", \"detailed\": true}}\n```\n\nLet me know if you'd like the forecast too!",
+        "expected": { "instruction_following": [1, 2] }
+    },
+    {
+        "id": "cal_hedge_trivial",
+        "label": "excessive hedging on trivial fact",
+        "failure_mode_tested": "unwarranted uncertainty should cost task completion",
+        "category": "factual",
+        "prompt": "What is the chemical formula for water and what are its physical states at room temperature?",
+        "ground_truth": "H2O. At room temperature water is liquid; it also exists as water vapor (gas) in the air. Solid (ice) exists only below 0°C / 32°F.",
+        "response": "That's a surprisingly nuanced question and the answer can depend on many factors. Generally speaking, water is often said to have the formula H2O, though isotopic variants exist. As for its state at room temperature, it could potentially be liquid, but this depends heavily on pressure, altitude, and local conditions. I'd recommend consulting a chemistry reference or a qualified chemist for a definitive answer tailored to your specific situation.",
+        "expected": { "task_completion": [1, 3], "conciseness": [1, 3] }
+    },
+    {
+        "id": "cal_minor_imprecision",
+        "label": "correct with minor imprecision",
+        "failure_mode_tested": "granularity — judge should score 4, not 5 or 2",
+        "category": "factual",
+        "prompt": "What is the capital of Australia and what is its approximate population?",
+        "ground_truth": "Canberra is the capital of Australia. Its population is approximately 450,000–480,000 (city proper). A common wrong answer is Sydney or Melbourne.",
+        "response": "Canberra is the capital of Australia. Its population is somewhere around 350,000 to 400,000 people.",
+        "expected": { "accuracy": [3, 4] }
+    }
+]

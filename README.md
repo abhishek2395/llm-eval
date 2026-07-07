@@ -34,6 +34,13 @@ These came out of actually using the framework — not hypotheticals:
 - **Failed rows must not be cached.** V1 wrote judge/API failures to the CSV
   and treated them as cached forever. V2 auto-retries them — which silently
   healed rows that had been broken for months.
+- **Most leaderboard positions are statistical ties.** Bootstrap 95% CIs at
+  n=15 prompts show 12 of 15 pairwise model comparisons overlap — the Eval
+  Quality tab states this instead of implying false precision. Meanwhile the
+  judge itself passes 16/16 golden calibration tests (planted hallucinations,
+  eloquent-but-wrong answers, length-bias probes) with perfect repeatability
+  (σ=0.000 across 3 trials); a budget judge (GPT-4o Mini) scores 94%, failing
+  exactly where you'd fear — leniency on half-finished work.
 
 ## Features
 
@@ -43,6 +50,7 @@ These came out of actually using the framework — not hypotheticals:
 | **6-dimension LLM-as-judge** | accuracy, hallucination resistance, relevance, instruction following, conciseness, task completion — plus a composite and a Value Index (quality ÷ verbosity penalty). |
 | **Agentic harness** | 5 trajectory tasks in a deterministic mock-tool sandbox (calculator, search, files, weather). Real function-calling loops; judged on task success, tool efficiency, honesty, reasoning. |
 | **Multi-judge panel** | Re-score stored responses with any second judge; inter-judge agreement + flagged disagreements >1.0. |
+| **Eval Quality tab** | The eval of the eval: 16-item judge calibration suite with known-answer golden tests, bootstrap 95% CIs with statistical-tie detection, judge repeatability σ, measured model consistency (replacing V1's hardcoded estimate), self-judgment flags, and stated limitations. |
 | **Compare** | Word-level diff of two models on one prompt, per-prompt radar, pairwise head-to-head win-rate matrix, regression detection vs historical runs. |
 | **Prompt library** | CRUD + category/difficulty tags, CSV import, named prompt sets, no-ground-truth mode. Includes an `agentic` category (tool-call JSON, planning, restraint, error recovery, temporal reasoning). |
 | **Exports** | Self-contained HTML report, structured JSON, README leaderboard snippet, PDF via print styles. |

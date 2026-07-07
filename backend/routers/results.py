@@ -57,6 +57,13 @@ def _summary_rows(r: pd.DataFrame, s: pd.DataFrame) -> list[dict]:
                 if len(cvals):
                     avg_conf = round(float(cvals.mean()), 3)
             row["judge_confidence_avg"] = avg_conf
+            # Measured consistency (repeat-run panel) replaces the V1 estimate
+            from meta_eval import real_consistency
+
+            measured = real_consistency(m)
+            if measured is not None:
+                row["consistency_score"] = measured
+                row["consistency_measured"] = True
             row["meta"] = model_meta(m)
             rows.append(clean(row))
     return rows

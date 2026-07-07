@@ -26,6 +26,7 @@ from config import (  # noqa: E402
 from routers import agentic as agentic_router  # noqa: E402
 from routers import eval as eval_router  # noqa: E402
 from routers import judge as judge_router  # noqa: E402
+from routers import meta_eval as meta_eval_router  # noqa: E402
 from routers import models as models_router  # noqa: E402
 from routers import prompts as prompts_router  # noqa: E402
 from routers import results as results_router  # noqa: E402
@@ -54,6 +55,7 @@ app.add_middleware(
 app.include_router(agentic_router.router)
 app.include_router(eval_router.router)
 app.include_router(judge_router.router)
+app.include_router(meta_eval_router.router)
 app.include_router(models_router.router)
 app.include_router(prompts_router.router)
 app.include_router(results_router.router)

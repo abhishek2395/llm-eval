@@ -11,6 +11,7 @@ import {
   ListChecks,
   FileText,
   Moon,
+  ShieldCheck,
   Sun,
 } from "lucide-react";
 import { api } from "@/lib/api";
@@ -20,6 +21,7 @@ import type { HealthResponse } from "@/lib/types";
 const NAV = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/agentic", label: "Agentic", icon: Bot },
+  { href: "/eval-quality", label: "Eval quality", icon: ShieldCheck },
   { href: "/compare", label: "Compare", icon: GitCompareArrows },
   { href: "/prompts", label: "Prompts", icon: ListChecks },
   { href: "/report", label: "Report", icon: FileText },
